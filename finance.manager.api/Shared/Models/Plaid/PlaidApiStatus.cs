@@ -1,24 +1,30 @@
-﻿namespace finance.manager.api.Shared.Models.Plaid
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace finance.manager.api.Shared.Models.Plaid
 {
     public class PlaidApiStatus
     {
-        public Page page { get; set; }
-        public Status status { get; set; }
+        public PlaidPage Page { get; set; }
+        public PlaidStatus Status { get; set; }
 
-        public class Page
+        public class PlaidPage
         {
-            public string id { get; set; }
-            public string name { get; set; }
-            public string url { get; set; }
-            public string time_zone { get; set; }
-            public DateTime updated_at { get; set; }
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+            
+            [JsonPropertyName("time_zone")]
+            public string TimeZone { get; set; }
+
+            [JsonPropertyName("updated_at")]
+            public DateTime UpdatedAt { get; set; }
         }
 
-        public class Status
+        public class PlaidStatus
         {
-            public string indicator { get; set; }
-            public string description { get; set; }
+            public string Indicator { get; set; }
+            public string Description { get; set; }
         }
-
     }
 }
