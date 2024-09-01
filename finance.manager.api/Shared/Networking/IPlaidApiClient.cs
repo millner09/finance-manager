@@ -4,6 +4,7 @@ namespace finance.manager.api.Shared.Networking
 {
     public interface IPlaidApiClient
     {
+        Task<PlaidApiStatus> GetPlaidApiStatus();
         ClientCredentials GetPlaidCredentials();
     }
 }

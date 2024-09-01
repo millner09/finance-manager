@@ -4,3 +4,10 @@ GET {{finance.manager.api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{finance.manager.api_HostAddress}}/hello
+Accept: application/json
+
+###
+GET {{finance.manager.api_HostAddress}}/plaid-api-status
+Accept: application/json
+
