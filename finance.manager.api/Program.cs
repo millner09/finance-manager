@@ -23,5 +23,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 SayHello.AddEndpoint(app);
 GetPlaidApiStatus.AddEndpoint(app);
-
+GetInstitutions.AddEndpoint(app);
 app.Run();

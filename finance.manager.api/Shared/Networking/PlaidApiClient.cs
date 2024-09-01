@@ -1,5 +1,6 @@
 ﻿using finance.manager.api.Shared.Models.Plaid;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace finance.manager.api.Shared.Networking
@@ -14,6 +15,36 @@ namespace finance.manager.api.Shared.Networking
         {
             this.configuration = configuration;
             this.httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<GetInstitutionsResult> GetAllInstitutions()
+        {
+            var httpClient = httpClientFactory.CreateClient();
+            var getInstitutionsDto = new GetInstitutionsDto()
+            {
+                ClientId = configuration["Plaid:client_id"],
+                Secret = configuration["Plaid:secret_key"],
+                Count = 200,
+                Offset = 0,
+                CountryCodes = new List<string>
+                {
+                    "US"
+                }
+            };
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{configuration["Plaid:url"]}/institutions/get");
+
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var requestBody = JsonSerializer.Serialize(getInstitutionsDto, _jsonSerializerOptions);
+            request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.SendAsync(request))
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                return await JsonSerializer.DeserializeAsync<GetInstitutionsResult>(stream, _jsonSerializerOptions) ?? new GetInstitutionsResult();
+            }
         }
 
         public async Task<PlaidApiStatus> GetPlaidApiStatus()
